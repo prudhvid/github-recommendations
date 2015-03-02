@@ -1,0 +1,18 @@
+Python type PNGraph: Directed
+  Nodes:                    7275243
+  Edges:                    6283987
+  Zero Deg Nodes:           0
+  Zero InDeg Nodes:         6109877
+  Zero OutDeg Nodes:        991256
+  NonZero In-Out Deg Nodes: 174110
+  Unique directed edges:    6283987
+  Unique undirected edges:  6283946
+  Self Edges:               0
+  BiDir Edges:              82
+  Closed triangles:         0
+  Open triangles:           2947293035
+  Frac. of closed triads:   0.000000
+  Connected component size: 0.004871
+  Strong conn. comp. size:  0.000001
+  Approx. full diameter:    7
+  90% effective diameter:  1.942499
