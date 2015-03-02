@@ -1,0 +1,66 @@
+
+************* Recommending projects on github ***********
+
+database we will be using majorly:
+
+1.) users:
+    Github users.
+    
+2.) organization_members
+
+Users that are members of an organization.
+
+3.) projects
+
+Information about repositories. A repository is always owned by a user has forked_from...
+
+4.) project_members
+
+Users that have commit access to the repository.
+
+6.) followers
+
+A follower to a user.
+
+7.) commits
+
+Unique commits.
+
+8.) commit_parents
+
+The parent commit(s) for each commit, as specified by Git.
+
+9.) project_commits
+
+The commits belonging to the history of a project.
+
+10.) commit_comments
+
+Code review comments on commits.
+
+11.) watchers
+
+Users that have starred (was watched) a project
+
+12.) pull_requests
+
+A pull request initiated from head_repo_id:head_commit_id to base_repo_id:base_commit_id
+
+
+user- user … edge between user in same organization
+user-user … forked from same project
+project-project .. weigh on language/organisation/description
+user-user… involved in same project
+user-user.. follower and followey
+user-user from watcher graph two users watchng the same project have edge..
+project project from watcher graph, two projects watched by same user have edge.
+
+
+
+How recommendation systems are made???
+*** 
+
+Q1.) how many nodes and which subset of data to take
+
+Q2.) how to deploy recommendation algos:
+
