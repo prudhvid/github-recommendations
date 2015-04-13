@@ -1,40 +1,51 @@
 __author__ = '12CS10037'
 import  networkx as nx;
 import graphlab as gl
+
 import sqlite3
 import sys
 
-conn=sqlite3.connect('../data/sqlite/project_members.sql.sqlite3.db')
+conn=sqlite3.connect('../data/sqlite/projects.sql.sqlite3.db')
 
 cursor=conn.cursor()
 
 g=nx.Graph();
 
-g=nx.read_pajek("../net_files/top10graph.net")
-proj_members=nx.read_pajek('../net_files/project_members.net')
+g=nx.read_pajek("./watchers.net")
+print 'got watchers'
+proj_members=nx.read_pajek('./project_members.net')
 print 'got data'
-print proj_members.nodes()
+# print proj_members.nodes()
+users_proj_dic={}
 users=[]
 projects=[]
 rating=[]
+
 for node in g.nodes():
     if node[0]=='u':
         p=g.neighbors(node)
-        users+=[node]*len(p)
-        projects+=p
 
-        rating+=[1]*len(p)
+        for tp in p:
+            users_proj_dic[(node,tp)]=1
 
 
 for node in proj_members.nodes():
-    if node[0]=='u':
-        p=proj_members.neighbors(node)
-        users+=[node]*len(p)
-        projects+=p
+    if node[0] == 'u':
+        p = proj_members.neighbors(node)
 
-        rating+=[2]*len(p)
+        for tp in p:
+            key=(node,tp)
+            users_proj_dic[key] = users_proj_dic.get(key, 0) + 2
 
 
+for key,value in users_proj_dic.items():
+    users.append(key[0])
+    projects.append((key[1]))
+    rating.append(value)
+
+# users=['u1','u1','u2','u2','u2','u2']
+# projects=['p1','p2','p1','p2','p3','p4']
+# rating=[1,1,1,1,1,10]
 print len(rating),len(projects),len(users)
 data=gl.SFrame({
     'user_id':users,
@@ -42,12 +53,48 @@ data=gl.SFrame({
     'rating':rating
 
                 })
+uprojects=list(set(projects))
+upnames=[]
+uforked=[]
+ulanguage=[]
+udescription=[]
 
-model=gl.recommender.create(data)
+rlist=[]
+
+for p in uprojects:
+    cursor.execute("select owner_id,name,language,forked_from,description from projects where id=%s"%(p[1:]))
+    # print "select owner_id,name,language,forked_from from projects where id=%s"%(p[1:])
+    r=cursor.fetchone()
+    if not r:
+        rlist.append(p)
+        continue
+    # print r
+    upnames.append(r[1])
+    ulanguage.append(r[2])
+    if r[3]:
+        uforked.append(1)
+    else:
+        uforked.append(0)
+    udescription.append(r[4])
+
+for r in rlist:
+    uprojects.remove(r)
+print len(uprojects),len(upnames),len(uforked),len(ulanguage)
+
+itemdata=gl.SFrame({
+    'item_id':uprojects,
+    'name':upnames,
+    'language':ulanguage,
+    'forked_from':uforked,
+    'description':udescription
+})
+
+model=gl.recommender.create(data,target='rating',item_data=itemdata)
 print model
-
+model.save('models/final_large')
 results=model.recommend(k=5)
-results.save('results.csv',format='csv');
+# print results
+results.save('results_final.csv',format='csv')
 
 
 
