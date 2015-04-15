@@ -64,14 +64,3 @@ var Gitrec = Gitrec || {};
     };
   })();
 })();
- add a */* value on the end
-            jqXHR.setRequestHeader("Accept", "application/json");
-          },
-          contentType: "application/json",
-          dataType: "json"
-        });
-      },
-
-    };
-  })();
-})();

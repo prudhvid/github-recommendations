@@ -115,10 +115,3 @@ var Gitrec = Gitrec || {};
     }
   });
 })(Gitrec);
-");
-      }
-    } catch(err) {
-      console.log(err);
-    }
-  });
-})(Gitrec);

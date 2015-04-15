@@ -8,8 +8,9 @@ context = ('./server.crt','./server.key')
 
 print 'loading model'
 import graphlab as gl
-model_contr=gl.load_model('../code/models/rfm_pdata')
+model_contr=gl.load_model('../code/models/rfm_project_user')
 model_data=gl.load_model('../code/models/rfm_rating')
+model_watch=gl.load_model('../code/models/watcher_item')
 print 'done loading model'
 # app.run(host='0.0.0.0', port=8100, ssl_context=context, threaded=True, debug=True)
 
@@ -48,9 +49,10 @@ def getJsonData(results,pcursor):
         """
         x=pcursor.fetchone()
         item['language']=x[5]
-        item['description']=None
+        item['description']=x[4]
         item['name']=str(x[1]).replace('api.', '').replace('repos/','')[19:]
         item['rank']=rank
+        item['rating']=results['score'][rank-1]
         ans.append(item)
     return ans
 
@@ -70,7 +72,16 @@ def getProjects(u):
 
     ans=dict()
 
-    results=model_contr.recommend(k=10,users=['u'+str(user[0])],verbose=True)
+    results=model_contr.recommend(k=5,users=['u'+str(user[0])],verbose=True)
+    resultst=model_watch.recommend(k=5,users=['u'+str(user[0])],verbose=True)
+    # resultst=gl.SFrame()
+    # resultst.append()
+    results=results.append(resultst)
+    # results['item_id']+=resultst['item_id']
+    # results['user_id']+=resultst['user_id']
+    # results['score']+=resultst['score']
+    # results['rank']+=resultst['rank']
+    #
     ans['contribution_recommendations']=getJsonData(results,pcursor)
 
     results=model_data.recommend(k=10,users=['u'+str(user[0])],verbose=True)
