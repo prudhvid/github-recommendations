@@ -1,0 +1,31 @@
+!_TAG_FILE_FORMAT	2	/extended format/
+!_TAG_FILE_SORTED	0	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Patrick Walton	/pwalton@mozilla.com/
+!_TAG_PROGRAM_NAME	jsctags	//
+!_TAG_PROGRAM_URL	http://github.com/pcwalton/jsctags	/GitHub repository/
+!_TAG_PROGRAM_VERSION	0.1	//
+Gitrec	js/gitrec/pagechecker.js	/^var Gitrec = Gitrec || {};$/;"	v	lineno:1	type:Object
+Gitrec	js/gitrec/gitrec.js	/^var Gitrec = Gitrec || {};$/;"	v	lineno:1	type:Object
+Gitrec	js/controller.js	/^var Gitrec = Gitrec || {};$/;"	v	lineno:1	type:Object
+Gitrec	js/gitrec/templator.js	/^var Gitrec = Gitrec || {};$/;"	v	lineno:1	type:Object
+%anonymous_function	js/controller.js	/^(function(Gitrec) {$/;"	f	lineno:2	type:void function(Object)
+%anonymous_function	js/gitrec/pagechecker.js	/^(function(Gitrec) {$/;"	f	lineno:2	type:void function(Object)
+%anonymous_function	js/gitrec/templator.js	/^(function(Gitrec) {$/;"	f	lineno:2	type:void function(Object)
+%anonymous_function	js/gitrec/pagechecker.js	/^  Gitrec.Pagechecker = (function() {$/;"	f	lineno:3	type:Object function()
+%anonymous_function	js/gitrec/gitrec.js	/^(function(Gitrec){$/;"	f	lineno:3	type:void function(Object)
+%anonymous_function	js/gitrec/templator.js	/^  Gitrec.Templator = (function () {$/;"	f	lineno:3	type:Object function()
+setupRepoPage	js/controller.js	/^  var setupRepoPage = function() {$/;"	f	lineno:8	type:void function()
+%anonymous_function	js/controller.js	/^    Gitrec.Templator.get(Gitrec.Templator.TEMPLATES.REPO_BUTTON, function(button_template_string) {$/;"	f	lineno:9	type:void function(any)
+repo_page	js/gitrec/pagechecker.js	/^      'repo_page' : function() {$/;"	f	lineno:10	type:any function()
+template_getter	js/gitrec/templator.js	/^    var template_getter = function(template_path) {$/;"	f	lineno:11	type:void function(any) function(string)
+getUsername	js/gitrec/gitrec.js	/^  Gitrec.getUsername = function() {$/;"	f	lineno:11	type:any function()
+%anonymous_function	js/gitrec/templator.js	/^      return function(callback) {$/;"	f	lineno:13	type:void function(any)
+%anonymous_function	js/gitrec/pagechecker.js	/^        return requirements.every(function(o) { return o == true });$/;"	f	lineno:16	type:boolean function(any)
+%anonymous_function	js/gitrec/templator.js	/^          \$.get(chrome.runtime.getURL(template_path), function(template_string) {$/;"	f	lineno:16	type:void function(any)
+%anonymous_function	js/controller.js	/^  \$(document).ready(function() {$/;"	f	lineno:17	type:void function()
+user_page	js/gitrec/pagechecker.js	/^      'user_page' : function() {$/;"	f	lineno:23	type:any function()
+getRepository	js/gitrec/gitrec.js	/^  Gitrec.getRepository = function() {$/;"	f	lineno:26	type:any function()
+%anonymous_function	js/gitrec/pagechecker.js	/^        return requirements.every(function(o) { return o == true });$/;"	f	lineno:28	type:boolean function(any)
+get	js/gitrec/templator.js	/^      get : function(template_name, callback) {$/;"	f	lineno:49	type:void function(any, any)
+detectPage	js/gitrec/pagechecker.js	/^      detectPage : function () {$/;"	f	lineno:50	type:string function()
+onPage	js/gitrec/pagechecker.js	/^      onPage : function(page_string) {$/;"	f	lineno:63	type:boolean function(any)

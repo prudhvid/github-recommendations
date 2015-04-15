@@ -1,5 +1,6 @@
 from flask import Flask
 import sqlite3
+import flask
 
 app = Flask(__name__)
 
@@ -7,14 +8,51 @@ context = ('./server.crt','./server.key')
 
 print 'loading model'
 import graphlab as gl
-model=gl.load_model('../code/models/rfm_rating')
+model_contr=gl.load_model('../code/models/rfm_pdata')
+model_data=gl.load_model('../code/models/rfm_rating')
 print 'done loading model'
 # app.run(host='0.0.0.0', port=8100, ssl_context=context, threaded=True, debug=True)
 
 
+"""
+{
+"contribution_recommendations":
+[
+
+{
+"language":"Unknown",
+"description":"for tmp use",
+"rank":1
+,"forks":1
+,"stars":39
+,"name":"limingth/tmp"
+,"reason":"torvalds/linux"
+
+},..
+]
+"interest_recommendations":
 
 
+"""
 
+
+def getJsonData(results,pcursor):
+    rank=0
+    ans=[]
+    for p in results['item_id']:
+        item={}
+        rank+=1
+        pcursor.execute("select * from projects where id = %s"%(p[1:]))
+        """
+        id,url,owner_id,name,description,language,created_at,ext_ref_id,forked_from,deleted
+        """
+        x=pcursor.fetchone()
+        item['language']=x[5]
+        item['description']=None
+        item['name']=str(x[1]).replace('api.', '').replace('repos/','')[19:]
+        item['rank']=rank
+        ans.append(item)
+    return ans
 
 def getProjects(u):
     conn=sqlite3.connect('../data/sqlite/users.sql.sqlite3.db')
@@ -29,16 +67,17 @@ def getProjects(u):
     if not user:
         print 'no username'
 
-    results=model.recommend(k=5,users=['u'+str(user[0])],verbose=True)
-    print results
-    ans=''
-    for p in results['item_id']:
-        pcursor.execute("select * from projects where id = %s"%(p[1:]))
-        x=pcursor.fetchone()
-        # print x
-        ans+='<a href=' +str(x[1]).replace('api.', '').replace('repos/','') +'>'+str(x[3]) +'</a><br>'
-        # print ans
-    return ans
+
+    ans=dict()
+
+    results=model_contr.recommend(k=10,users=['u'+str(user[0])],verbose=True)
+    ans['contribution_recommendations']=getJsonData(results,pcursor)
+
+    results=model_data.recommend(k=10,users=['u'+str(user[0])],verbose=True)
+    ans['interest_recommendations']=getJsonData(results,pcursor)
+
+    print ans
+    return flask.jsonify(**ans)
 
 @app.route('/')
 def hello_world():
